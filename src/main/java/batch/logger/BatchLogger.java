@@ -16,8 +16,7 @@ public class BatchLogger {
 
   private final BatchSyncer syncer;
   // Create a thread safe collection object
-  private final Collection<Payload> payloads = Collections
-      .synchronizedCollection(new ArrayList<>());
+  private Collection<Payload> payloads = Collections.synchronizedCollection(new ArrayList<>());
 
   @Property(name = "batch.logger.size")
   private String batchSize;
@@ -32,7 +31,7 @@ public class BatchLogger {
    *
    * @param payload Payload from request
    */
-  public synchronized void log(Payload payload) {
+  public void log(Payload payload) {
     payloads.add(payload);
 
     // If payloads size has exceeded batch size then sync it
@@ -58,12 +57,16 @@ public class BatchLogger {
   /*
    * Send payloads to syncer and clear collections object
    * */
-  private synchronized void sync() {
-    // Make copy of payloads to sync with target
-    var payloadsCopy = new ArrayList<>(payloads);
+  private synchronized void sync() { // Synchronized so only one execution happns at a time
+    if (payloads.isEmpty()) {
+      return;
+    }
 
-    // Clear the payloads
-    payloads.clear();
+    // Assign current payloads object to a new variable
+    var payloadsCopy = payloads;
+
+    // Create a new payloads object
+    payloads = Collections.synchronizedCollection(new ArrayList<>());
 
     // Start syncing of payloads on a new thread so that it does not block any request
     new Thread(() -> syncer.sync(new ArrayList<>(payloadsCopy))).start();
