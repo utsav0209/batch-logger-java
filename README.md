@@ -1,13 +1,16 @@
-## Micronaut 2.5.9 Documentation
+# Batch Logger
 
-- [User Guide](https://docs.micronaut.io/2.5.9/guide/index.html)
-- [API Reference](https://docs.micronaut.io/2.5.9/api/index.html)
-- [Configuration Reference](https://docs.micronaut.io/2.5.9/guide/configurationreference.html)
-- [Micronaut Guides](https://guides.micronaut.io/index.html)
+A simple web-server made using `java` and `micronaut`. The server writes logs in batchs in intervals
+to a post endpoint. You need to configure `Batch Size`, `Interval Time` and `Post endpoint` via
+environment variables.
 
----
+## Steps to run
 
-## Feature http-client documentation
+- run: `docker build . -t batch-logger`
+- create an environment file as described in `sample.env` or pass env variables from command line
+- run: `docker run -it --rm -p 8080:800 --env-file .env batch-logger`
 
-- [Micronaut HTTP Client documentation](https://docs.micronaut.io/latest/guide/index.html#httpClient)
+## Endpoints
 
+- `GET: /healthz` - Returns health of the server
+- `POST: /log` - Send your logs here
