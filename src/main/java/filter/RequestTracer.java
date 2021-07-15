@@ -12,6 +12,10 @@ import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
+/*
+ * Trace all the request going to /log endpoint and log it
+ * */
 @Filter("/log")
 public class RequestTracer implements HttpServerFilter {
 

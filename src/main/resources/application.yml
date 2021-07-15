@@ -1,3 +1,9 @@
 micronaut:
   application:
     name: batchLoggerJava
+
+batch:
+  logger:
+    size: '${BATCH_SIZE:5}'
+    interval: '${BATCH_INTERVAL:5s}'
+    target: '${TARGET_ENDPOINT:`http://localhost:9090/test`}'
