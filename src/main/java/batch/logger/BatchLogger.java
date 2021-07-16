@@ -69,7 +69,7 @@ public class BatchLogger {
     payloads = Collections.synchronizedCollection(new ArrayList<>());
 
     // Start syncing of payloads on a new thread so that it does not block any request
-    new Thread(() -> syncer.sync(new ArrayList<>(payloadsCopy))).start();
+    syncer.sync(payloadsCopy);
 
   }
 

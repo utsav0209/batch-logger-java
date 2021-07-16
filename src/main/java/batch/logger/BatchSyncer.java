@@ -4,9 +4,10 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.client.annotation.Client;
+import io.micronaut.scheduling.annotation.Async;
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.List;
+import java.util.Collection;
 import javax.inject.Singleton;
 import logger.Payload;
 import lombok.SneakyThrows;
@@ -33,7 +34,8 @@ public class BatchSyncer {
    * @param payloads request payloads to sync
    */
   @SneakyThrows
-  public void sync(List<Payload> payloads) {
+  @Async
+  public void sync(Collection<Payload> payloads) {
 
     LocalTime start = LocalTime.now();
 
@@ -66,7 +68,7 @@ public class BatchSyncer {
   interface TargetClient {
 
     @Post("/")
-    HttpResponse<String> sync(@Body List<Payload> payloads);
+    HttpResponse<String> sync(@Body Collection<Payload> payloads);
 
   }
 }
