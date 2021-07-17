@@ -39,8 +39,9 @@ public class LogSyncer {
         HttpResponse<String> res = targetClient.sync(payloads);
 
         // Request was successful
-        log.info("Synced Batch of Size {} which returned status code {} and took {}",
-            payloads.size(), res.status().getCode(), Duration.between(start, LocalTime.now()));
+        log.info("Synced Batch of Size {} which returned status code {} and took {}ms",
+            payloads.size(), res.status().getCode(),
+            Duration.between(start, LocalTime.now()).toMillis());
 
         return;
       } catch (Exception e) {
